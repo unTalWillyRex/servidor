@@ -111,6 +111,8 @@ int main(int argc, char const *argv[])
     char* porTemp = strdup(argv[4]);
     float nuevoError;
     float nuevoTemp;
+    MSJ mensaje;
+ 
     
     
   	FILE *archivo;
@@ -147,7 +149,7 @@ int main(int argc, char const *argv[])
 		fseek(archivo, 0, SEEK_SET);//nos posicionamos al principio del archivo
 
 		
-		while((valread= fread (newBuffer, 1, 1024, archivo)) != EOF && !(valread == 0)){//mientras existan datos el servidor  estara enviando paquetes
+		while((valread= fread (mensaje.data, 1, DATA_LEN, archivo)) != EOF && !(valread == 0)){//mientras existan datos el servidor  estara enviando paquetes
 			nuevoError = obtenConfirmacion();
 			nuevoTemp = obtenTemporizador();
 			
@@ -158,7 +160,7 @@ int main(int argc, char const *argv[])
 			
 			}
 			
-			send(new_socket, newBuffer, valread, 0 ); //enviando el numero de  datos de valread
+			send(new_socket, mensaje.data, valread, 0 ); //enviando el numero de  datos de valread
 		}
 		
 		send(new_socket, banderaFin, 1, 0 );//Bandera para enviar el fin de archivos, el cual marca el fin del envio y avisamos al cliente
